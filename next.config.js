@@ -1,5 +1,5 @@
 module.exports = {
   basePath: '/webgl-tweakin',
-  assetsPrefix: '/webgl-tweakin/',
+  assetPrefix: '/webgl-tweakin/',
 //   exportTrailingSlash: true
 }
