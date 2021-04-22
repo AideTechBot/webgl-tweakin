@@ -1,6 +1,116 @@
 import Head from 'next/head'
+import React, { Suspense, useState, useRef } from 'react'
+import { Canvas, useLoader } from '@react-three/fiber'
+import { useFrame } from '@react-three/fiber'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import duck from './mdionne-head.glb'
+
+function Duck() {
+  const gltf = useLoader(GLTFLoader, './webgl-tweakin/mdionne-head.glb');
+  return <primitive object={gltf.scene} position={[0, 0, 0]} />
+}
+
+function Box() {
+  return (
+    <mesh castShadow>
+      <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
+      <meshStandardMaterial attach="material" color="red" transparent opacity={1.0} />
+    </mesh>
+  )
+}
+
+function GroundPlane() {
+  return (
+    <mesh receiveShadow rotation={[5, 0, 0]} position={[0, -1, 0]}>
+      <planeBufferGeometry attach="geometry" args={[500, 500]} />
+      <meshStandardMaterial attach="material" color="white" />
+    </mesh>
+  );
+}
+function BackDrop() {
+  return (
+    <mesh receiveShadow position={[0, -1, -5]}>
+      <planeBufferGeometry attach="geometry" args={[500, 500]} />
+      <meshStandardMaterial attach="material" color="white" />
+    </mesh>
+  );
+}
+function Sphere() {
+  return (
+    <mesh
+      visible
+      userData={{ test: "hello" }}
+      position={[0, 0, 0]}
+      rotation={[0, 0, 0]}
+      castShadow
+    >
+      <sphereGeometry attach="geometry" args={[1, 16, 16]} />
+      <meshStandardMaterial
+        attach="material"
+        color="white"
+        transparent
+        roughness={0.1}
+        metalness={0.1}
+      />
+    </mesh>
+  );
+}
+
+// Lights
+function KeyLight({ brightness, color }) {
+  const ref = useRef()
+  useFrame(() => (ref.current.rotation.y += 0.02));
+
+  return (
+    // <group ref={ref}>
+    <rectAreaLight
+      ref={ref}
+      width={3}
+      height={3}
+      color={color}
+      intensity={brightness}
+      position={[-2, 0, 5]}
+      lookAt={[0, 0, 0]}
+      penumbra={1}
+      castShadow
+    />
+  );
+}
+function FillLight({ brightness, color }) {
+  const ref = useRef()
+  useFrame(() => (ref.current.rotation.y += 0.01));
+  return (
+    <rectAreaLight
+      ref={ref}
+      width={3}
+      height={3}
+      intensity={brightness}
+      color={color}
+      position={[2, 1, 4]}
+      lookAt={[0, 0, 0]}
+      penumbra={2}
+      castShadow
+    />
+  );
+}
+function RimLight({ brightness, color }) {
+  return (
+    <rectAreaLight
+      width={2}
+      height={2}
+      intensity={brightness}
+      color={color}
+      position={[1, 4, -2]}
+      rotation={[0, 180, 0]}
+      castShadow
+    />
+  );
+}
+
 
 export default function Home() {
+  // const [clicked, set] = useState(false);
+
   return (
     <div className="container">
       <Head>
@@ -18,8 +128,21 @@ export default function Home() {
           Lets see how this gooooes...
         </p>
 
-        <div className="canvas">
-        </div>
+        <Canvas camera={{ position: [0, 0, 10] }} style={{
+          width:'650px',
+          height:'350px',
+        }}>
+          {/* <ambientLight intensity={0.5} />
+          <spotLight intensity={0.8} position={[300, 300, 400]} />
+          <Suspense fallback={<Box />}>{clicked && <Duck />}</Suspense> */}
+          <GroundPlane />
+          <BackDrop />
+          <KeyLight brightness={5.6} color="#ffbdf4" />
+          <FillLight brightness={2.6} color="#bdefff" />
+          <RimLight brightness={54} color="#fff" />
+          <Sphere />
+        </Canvas>
+        {/* {!clicked && <button onClick={() => set(true)}>Load duck w/ 1s delay</button>} */}
       </main>
 
       <footer>
