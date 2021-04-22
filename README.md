@@ -1,1 +1,1 @@
-This is just some WebGL fun for myself. It may turn out to be something though.
+This is just some WebGL/NextJS fun for myself. It may turn out to be something though.
