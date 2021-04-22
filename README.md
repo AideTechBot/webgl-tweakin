@@ -1,1 +1,1 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+This is just some WebGL fun for myself. It may turn out to be something though.
