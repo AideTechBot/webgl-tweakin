@@ -129,7 +129,6 @@ export default function Home() {
         </p>
 
         <Canvas camera={{ position: [0, 0, 10] }} style={{
-          width:'650px',
           height:'350px',
         }}>
           {/* <ambientLight intensity={0.5} />
