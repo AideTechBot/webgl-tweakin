@@ -15,7 +15,7 @@ export default function Home() {
         </h1>
 
         <p className="description">
-          Lets see how this fucking gooooes...
+          Lets see how this gooooes...
         </p>
 
         <div className="canvas">
