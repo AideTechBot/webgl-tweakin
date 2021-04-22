@@ -24,7 +24,7 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm run export
-      - run: touch out/.jekyll
+      - run: touch out/.nojekyll
         env:
             CI: true
 
